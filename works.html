@@ -3,21 +3,270 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title> - 個人簡介</title>
+    <title>賴婉雯 - 個人簡介</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="main.js"></script>
-    <link rel="stylesheet" href="style.css"></link>
+    <link rel="stylesheet" href="style.css" />
 </head>
-
 <body onload="initial();">
-   
-    <div id="main">
-        <h1>{{ Name }}</h1>
-        <h2>{{ NameEn }}</h2>
-        <p>{{ message }}</p>
-        <main-menu type="2"></main-menu>
+    <div id="content">
+        <div id="main">
+            <div class="avatar">
+                <img src="/images/avatar.jpg" :alt="Name" :title="Name">
+            </div>
+            <div class="mainTitle">
+                <h1>{{ Name }}</h1>
+                <h2>{{ NameEn }}</h2>
+                <div> {{location}}</div>
+                <div>{{job}}</div>
+            </div>
+            <main-menu type="2"></main-menu>
+        </div>
+        <div id="Works">
+            <ul id="searchCheck">
+                <li v-for="key in type">
+                    <input type="checkbox" :id="key" :value="key" v-model="search" @change="check">
+                    <label :for="key"> {{key}}</label>
+                </li>
+            </ul>
+            <ul id="UlWorks">
+                <li v-for="service in searchData">
+                    <div class="UlWorksLeft" :class="service.imgType == '1' ? '' : 'imgHeight'">
+                        <img :src="service.img" :alt="service.name" :title="service.name" />
+                    </div>
+                    <div class="UlWorksRight">
+                        <h3> {{service.name }}</h3>
+                        <div>{{service.tool}}</div>
+                        <div class="UlWorksTime">{{service.time}}</div>
+                        <div>{{service.content}}</div>
+                        <div class="UlWorksWeb" v-for="webData in service.web">
+                            <a :href="webData.weburl" target="_blank">{{webData.webname}}</a>
+                        </div>
+                    </div>
+                    <div style="clear: both">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div id="footer">
+            ©2021 賴婉雯 Wan Wen,Lai
+        </div>
     </div>
+    <div class="goTop" :class="isTop ? 'goTopAfter' : ''" @click="goTop()">Top</div>
+    <script>
+        new Vue({
+            el: '#Works',
+            data: {
+                search: [],
+                showSearch: false,
+                services: [{
+                    "imgType": "1",
+                    "img": "/images/01.jpg",
+                    "name": "內政部-宗教資訊網",
+                    "tool": "HTML+CSS(RWD)、jQuery+AJAX、採MVC架構(ASP.net MVC4 C#)、MS SQL",
+                    "time": "2014/6~2021",
+                    "web": [{
+                        "webname": "官網",
+                        "weburl": "https://religion.moi.gov.tw"
+                    }],
+                    "content": "呈現臺灣宗教團體相關資訊的網站。宗教知識+ 與 地方宗教慶典行政成果有介接「宗教文化地圖」。"
+                }, {
+                    "imgType": "1",
+                    "img": "/images/02.jpg",
+                    "name": "內政部-萌虎戰記-大地守護者",
+                    "tool": "HTML+CSS(RWD)、jQuery+AJAX、採MVC架構(ASP.net C#)、MS SQL",
+                    "time": "2017~2021",
+                    "web": [{
+                        "webname": "官網",
+                        "weburl": "https://good.taiwangods.com/"
+                    }],
+                    "content": "宗教資訊網活動推廣網站。情境區有四個小遊戲，分別為放置遊戲、打地鼠、尋物、射擊。著色用SVG填色，共有14幅。拼圖分類，為九宮格、經典拼圖、位移拼圖。"
+                }, {
+                    "imgType": "1",
+                    "img": "/images/03.jpg",
+                    "name": "內政部-宗教文化地圖",
+                    "tool": "HTML+CSS(RWD)、jQuery+AJAX、採MVC架構(ASP.net C#)、MS SQL",
+                    "time": "2014/6~2015/5、2016/5~2021",
+                    "web": [{
+                        "webname": "官網",
+                        "weburl": "https://www.taiwangods.com/"
+                    }],
+                    "content": "介紹臺灣宗教文化的網站。宗教百景為票選臺灣100個文化或景點的內容。Temple Stay是介紹可以體驗文化相關的資訊。文化資產是介紹臺灣宗教文化、習俗、建築等相關資訊。目前有繁中、英文、簡中、日文、韓文。"
+                }, {
+                    "imgType": "1",
+                    "img": "/images/04.jpg",
+                    "name": "內政部-國民曆網站",
+                    "tool": "HTML+CSS(RWD)、jQuery+AJAX",
+                    "time": "2017",
+                    "web": [],
+                    "content": "呈現國民106年，所以有節氣、紀念日、節日、日出日沒、月出月沒等。該網站已下架。"
+                },
+                {
+                    "imgType": "1",
+                    "img": "/images/05.jpg",
+                    "name": "內政部-臺灣宗教百景達人大挑戰",
+                    "tool": "HTML+CSS(RWD)、jQuery+AJAX、ASP.net Web Form C#、MS SQL",
+                    "time": "2016~2021",
+                    "web": [{
+                        "webname": "官網",
+                        "weburl": "https://www.taiwangods.com/html/Home/5_005.aspx"
+                    }],
+                    "content": "從宗教百景中出題，用選項題的方式來回答。在2016年辦活動。2017年將此功能區塊移到文化地圖網站。"
+                },
+                {
+                    "imgType": "1",
+                    "img": "/images/06.jpg",
+                    "name": "陶博館-陶瓷學院",
+                    "tool": "HTML+CSS(RWD)、jQuery+AJAX、ASP.net Web Form C#、MS SQL",
+                    "time": "2014/6~2021",
+                    "web": [{
+                        "webname": "官網",
+                        "weburl": "https://academy.ceramics.ntpc.gov.tw/"
+                    }],
+                    "content": "主要內容為陶博館各個相關報名活動。介接客樂得金流。"
+                }, {
+                    "imgType": "1",
+                    "img": "/images/07.jpg",
+                    "name": "陶博館-自動購課機",
+                    "tool": "WPF C#、ASP.NET Web Service(VB)、 Kiosk機台",
+                    "time": "2019~2021",
+                    "web": [],
+                    "content": "讓民眾可以在現場直接報名課程與繳費機台。介接中國信託刷卡機、Line pay。"
+                }, {
+                    "imgType": "1",
+                    "img": "/images/08.jpg",
+                    "name": "陶博館-智能新北",
+                    "tool": "HTML+CSS(RWD)、jQuery+AJAX、ASP.net Web Form C#、MS SQL",
+                    "time": "2016/10~2021",
+                    "web": [{
+                        "webname": "官網",
+                        "weburl": "https://digital.ceramics.ntpc.gov.tw/"
+                    }],
+                    "content": "主要是串連陶博館所有相關網站。有介接文化部陶博館館藏。(前身為數位典藏)"
+                }, {
+                    "imgType": "1",
+                    "img": "/images/09.jpg",
+                    "name": "陶博館-圖書出版",
+                    "tool": "HTML+CSS(RWD)、jQuery+AJAX、ASP.net Web Form C#、MS SQL",
+                    "time": "2015/5~2021",
+                    "web": [{
+                        "webname": "官網",
+                        "weburl": "https://e-library.ceramics.ntpc.gov.tw/"
+                    }],
+                    "content": "呈現陶博館館刊、出版品、電子報等資訊。"
+                }, {
+                    "imgType": "1",
+                    "img": "/images/10.jpg",
+                    "name": "孔廟儒學網",
+                    "tool": "HTML+CSS(RWD)、jQuery+AJAX、ASP.net Web Form C#、MS SQL",
+                    "time": "2014~2021",
+                    "web": [{
+                        "webname": "官網",
+                        "weburl": "https://www.tctcc.taipei/"
+                    }],
+                    "content": "介紹儒學的相關內容。目前有中文、英文、日文、韓文。"
+                }, {
+                    "imgType": "1",
+                    "img": "/images/11.jpg",
+                    "name": "原民會-族語辭典",
+                    "tool": "HTML+CSS(RWD)、jQuery+AJAX、ASP.net Web Form C#、MS SQL",
+                    "time": "2014~2021",
+                    "web": [{
+                        "webname": "官網",
+                        "weburl": "https://e-dictionary.ilrdf.org.tw/"
+                    }],
+                    "content": "將十六部族語詞典數位化，提供線上查閱、下載…等。"
+                }, {
+                    "imgType": "1",
+                    "img": "/images/12.png",
+                    "name": "史博館-全球資訊入口網",
+                    "tool": "HTML+CSS(RWD)、jQuery+AJAX、ASP.net Web Form C#、MS SQL",
+                    "time": "2014/6~2019",
+                    "web": [],
+                    "content": "為史博館官網，因文化部共構，在2019年下架。"
+                }, {
+                    "imgType": "2",
+                    "img": "/images/13.jpg",
+                    "name": "史博館-三樓展場多媒體互動",
+                    "tool": "Unity 4.3.0、Kinect v1、Kiosk機台",
+                    "time": "2014~2018",
+                    "web": [{
+                        "webname": "相關YouTu",
+                        "weburl": "https://youtu.be/c4q99FZOxJY"
+                    }],
+                    "content": "放置史博館三樓展場的Kiosk。使用Kinect體感探測器及觸控螢幕來互動。於2018年史博館閉館整建下架。"
+                }, {
+                    "imgType": "1",
+                    "img": "/images/14.jpg",
+                    "name": "史博館-行動博物館 一起來做三彩馬",
+                    "tool": "Unity 5.3.4 Kiosk機台",
+                    "time": "2016~2019",
+                    "web": [{
+                        "webname": "相關網站",
+                        "weburl": "https://www.nmh.gov.tw/museum_85.html"
+                    }],
+                    "content": "為史博「酷獸來了」行動車上，使用觸控螢幕互動。讓小朋友了解燒製技術和流程，從選土、成型、到釉燒。"
+                }
+                    , {
+                    "imgType": "1",
+                    "img": "/images/15.jpg",
+                    "name": "史博館-行動博物館 綠釉陶牛闖關趣",
+                    "tool": "Unity 5.3.4、Kiosk機台",
+                    "time": "2016~2019",
+                    "web": [{
+                        "webname": "相關網站",
+                        "weburl": "https://www.nmh.gov.tw/museum_85.html"
+                    }],
+                    "content": "為史博「酷獸來了」行動車上，使用觸控螢幕互動。用一些小關卡，連結動物與生活場景，最後來到想像的時空。"
+                }, {
+                    "imgType": "2",
+                    "img": "/images/16.jpg",
+                    "name": "史博館-行動博物館 AR體感互動",
+                    "tool": "Unity 5.3.4、Kinect v2、Kiosk機台",
+                    "time": "2017~2019",
+                    "web": [{
+                        "webname": "相關網站",
+                        "weburl": "https://www.nmh.gov.tw/museum_85.html"
+                    }],
+                    "content": "2017年行動車新增Kinect體感互動。讓小朋友學角色動作。"
+                }, {
+                    "imgType": "1",
+                    "img": "/images/17.png",
+                    "name": "臺博館英日版",
+                    "tool": "HTML+CSS(RWD)、jQuery+AJAX、ASP.net Web Form C#、MS SQL",
+                    "time": "2014/11~2018",
+                    "web": [],
+                    "content": "為臺博館官網，因文化部共構，在2018年下架。"
+                }],
+                type: ["HTML+CSS(RWD)", "jQuery+AJAX", "ASP.net", "MS SQL", "Unity", "Kinect", "Kiosk"]
+            },
+            computed: {
+                searchData: function () {
+                    var search = this.search;
+                    if (search) {
+                        return this.services.filter(value => value.tool.indexOf(this.search) !== -1)
+                    }
+                    return this.services;
+                }
+            },
+            methods: {
+                check: function (e) {
+                    console.log(e.target.value);
+                    this.search = [];
+                    if ($(e.target).prop("checked") == false) { //判断当前对象为不选中
+                        $(e.target).prop("checked", false);  //去除当前对象的选中状态
+                    } else {  //判断当前对象为选中状态
+                        $("#searchCheck input[type=checkbox]").each(function () {  //通过循环CheckBox的class所有CheckBox均不选中
+                            $(this).prop("checked", false);
+                        });
+                        this.search.push(e.target.value);
+                    }
+                    return this.search;
+                }
+            }
+        });
+
+    </script>
 </body>
-
 </html>
-
