@@ -2,7 +2,7 @@
 	Vue.component('main-menu', {
 		template: `<div id="menu">
 					<ul>
-						<li :class="{ active: (type === '1' || IsActive) }" @mouseover="IsActive = (type === '1' ? false : true)"  @mouseout="IsActive = false"><a href="/">個人資料</a></li>
+						<li :class="{ active: (type === '1' || IsActive) }" @mouseover="IsActive = (type === '1' ? false : true)"  @mouseout="IsActive = false"><a href="/">個人簡介</a></li>
 						<li :class="{ active: (type === '2' || IsActive) }" @mouseover="IsActive = (type === '2' ? false : true)"  @mouseout="IsActive = false"><a href="works.html">作品</a></li>
 					</ul>
 				</div>`,
@@ -49,5 +49,5 @@
 			}
 		}
 	});
-
+	document.body.removeChild(document.getElementById('Loading'));
 }
