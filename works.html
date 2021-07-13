@@ -51,7 +51,7 @@
             <ul id="UlWorks">
                 <li v-for="service in searchData">
                     <div class="UlWorksLeft" :class="service.imgType == '1' ? '' : 'imgHeight'">
-                        <img :src="service.img" :alt="service.name" :title="service.name" />
+                        <img :src="service.img" :alt="service.name" :title="service.name" onload="imgSize(this);" />
                     </div>
                     <div class="UlWorksRight">
                         <h3> {{service.name }}</h3>
@@ -284,7 +284,16 @@
                 }
             }
         });
-
+        function imgSize(_img) {
+            var _w = $(_img).width();
+            var _h = $(_img).height();
+            var _wp = $(_img).parent().width();
+            var _hp = $(_img).parent().height();
+            if (_hp > _h) {
+                console.log("h");
+                $(_img).parent().height(_h);
+            }
+        }
     </script>
 </body>
 </html>
