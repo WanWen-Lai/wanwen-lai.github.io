@@ -497,3 +497,9 @@ h2 {
         width: 100%;
     }
 }
+
+@media screen and (max-width: 320px) {
+    .rating {
+        letter-spacing: 4px;
+    }
+}
